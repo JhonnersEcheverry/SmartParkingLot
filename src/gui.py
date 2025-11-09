@@ -3,15 +3,8 @@ from tkinter import ttk, font
 
 class ParkingLotGUI:
     """
-    GUI Profesional para el Simulador de Parqueadero Inteligente.
+    GUI para el Simulador de Parqueadero Inteligente.
 
-    MEJORAS VISUALES:
-    - Paleta de colores moderna y consistente
-    - Tipografía profesional con fuentes personalizadas
-    - Efectos visuales (sombras, degradados simulados, bordes redondeados)
-    - Diseño de tarjetas (cards) para estadísticas
-    - Visualización mejorada de espacios de parqueo
-    - Botones con estilo moderno
     """
 
     # === PALETA DE COLORES ===
