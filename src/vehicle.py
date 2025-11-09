@@ -1,6 +1,7 @@
 import threading
 import time
 import random
+from config import TIEMPO_MIN_ESPERA, TIEMPO_MAX_ESPERA, TIEMPO_MIN_ESTACIONADO, TIEMPO_MAX_ESTACIONADO
 
 class Vehicle(threading.Thread):
     """
@@ -17,25 +18,32 @@ class Vehicle(threading.Thread):
 
     def run(self):
         """Ciclo de vida del hilo (proceso)."""
-        time.sleep(random.uniform(2, 5))  # Simula tiempo antes de intentar entrar
+        # MEJORADO: Usar constantes de config.py en lugar de valores hardcoded
+        # Ahora si quieres cambiar el tiempo, solo editas config.py
+        time.sleep(random.uniform(TIEMPO_MIN_ESPERA, TIEMPO_MAX_ESPERA))
 
         while not self.stop_event.is_set():
             try:
-                # Intentar adquirir un espacio (semáforo)
-                if self.parking_lot.semaphore.acquire(timeout=2):
-                    with self.parking_lot.lock:  # Exclusión mutua
-                        self.parking_lot.occupied += 1
-                        self.event_queue.put(f"{self.name} ingresó al parqueadero.")
-                    # Simula tiempo estacionado
-                    time.sleep(random.uniform(4, 8))
-                    with self.parking_lot.lock:
-                        self.parking_lot.occupied -= 1
-                        self.event_queue.put(f"{self.name} salió del parqueadero.")
-                    self.parking_lot.semaphore.release()
-                    break
+                # Usar el método try_enter() en lugar de acceder directamente al semáforo
+
+                if self.parking_lot.try_enter(self.name, timeout=2):
+                    # Logramos entrar al parqueadero
+                    self.event_queue.put(f"{self.name} ingresó al parqueadero.")
+
+                    # Simular tiempo estacionado (usando constantes de config)
+                    time.sleep(random.uniform(TIEMPO_MIN_ESTACIONADO, TIEMPO_MAX_ESTACIONADO))
+
+                    # Usar el método exit() en lugar de acceder directamente
+                    self.parking_lot.exit(self.name)
+                    self.event_queue.put(f"{self.name} salió del parqueadero.")
+                    break  # Terminamos el ciclo - este vehículo completó su tarea
                 else:
-                    # Si no hay cupos, queda bloqueado (esperando)
+                    # No había espacio disponible - seguimos esperando
                     self.event_queue.put(f"{self.name} esperando espacio...")
-            except Exception as e:
+
+            # Capturar solo excepciones específicas, no todas
+            except (RuntimeError, ValueError) as e:
+                # RuntimeError: problemas con threading
+                # ValueError: problemas con semaphore
                 self.event_queue.put(f"Error en {self.name}: {e}")
                 break
