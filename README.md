@@ -1,7 +1,6 @@
 # 🚗 Simulador de Parqueadero Inteligente
 
 [![Python](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com)
 
 > Demostración educativa de conceptos de Sistemas Operativos: concurrencia, semáforos, locks y threads implementados en Python con interfaz gráfica Tkinter.
@@ -329,25 +328,6 @@ if __name__ == "__main__":
 - ¿Por qué es necesario usar `timeout` en `semaphore.acquire()`?
 - ¿Qué pasaría si eliminamos el lock del contador `occupied`?
 - ¿Cómo se compara esto con algoritmos de planificación de CPU (FCFS, Round Robin)?
-
----
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Para cambios importantes:
-
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/NuevaFuncionalidad`)
-3. Commit tus cambios (`git commit -m 'Agregar nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/NuevaFuncionalidad`)
-5. Abre un Pull Request
-
-### Lineamientos
-
-- Mantén el código educativo y legible
-- Agrega comentarios explicativos en español
-- Sigue el estilo existente (PEP 8)
-- Documenta nuevas características en el README
 
 ---
 
